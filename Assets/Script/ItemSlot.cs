@@ -7,44 +7,29 @@ using UnityEngine.UIElements;
 public class ItemSlot : MonoBehaviour, IDropHandler
 {
     private RectTransform rectTransform;
-    //private Image image;
-    [SerializeField]
-    private GameObject Hint;
+
+    public GameObject occupiedObject;
+    public bool occupied;
+
     public void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
-        //image = GetComponent<Image>();
     }
     void IDropHandler.OnDrop(PointerEventData eventData)
     {
         Debug.Log("OnDrop");
         var currentObject = eventData.pointerDrag;
         var object_rectTransform = currentObject.GetComponent<RectTransform>();
-        if (currentObject != null)
+        if (eventData.pointerDrag != null && eventData.pointerDrag.name == "Image")
         {
             //currentObject.transform.SetParent(transform);
-            currentObject.GetComponent<DragnDrop>().changeParent(transform);
+            currentObject.GetComponent<DragnDrop>().changeParent(transform, false);
+
+            object_rectTransform.localScale = new Vector3(2, 2, 2);
             object_rectTransform.anchoredPosition = rectTransform.anchoredPosition + new Vector2(rectTransform.sizeDelta.x/2, -rectTransform.sizeDelta.y/2);
+
+            occupiedObject = currentObject;
+            occupied = true;
         }
-
-        //activeSelf(false);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void activeSelf(bool cmd)
-    {
-        //image.SetEnabled(cmd);
-        Hint.SetActive(cmd);
     }
 }

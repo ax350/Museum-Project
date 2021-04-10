@@ -10,15 +10,13 @@ public class DragnDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
 
     private RectTransform rectTransform;
     private CanvasGroup canvasGroup;
-
     [SerializeField]
-    private GameObject parentPanel;
+    private GameObject parentObject;
 
     public void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
-        parentPanel = this.transform.parent.gameObject;
     }
 
 
@@ -30,39 +28,34 @@ public class DragnDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
     public void OnBeginDrag(PointerEventData eventData)
     {
         Debug.Log("OnBeginDrag");
+        
         Cursor.visible = false;
         canvasGroup.blocksRaycasts = false;
         canvasGroup.alpha = .5f;
-
-        if (parentPanel.name == "Frame")
-        {
-            parentPanel.GetComponent<ItemSlot>().activeSelf(true);
-        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        //Debug.Log("OnDrag");
-        //Debug.Log(eventData.delta / canvas.scaleFactor + " " + eventData.delta + " " + canvas.scaleFactor);
         rectTransform.anchoredPosition += eventData.delta / canvas.scaleFactor;
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
         Debug.Log("OnEndDrag");
+        
         Cursor.visible = true;
         canvasGroup.blocksRaycasts = true;
         canvasGroup.alpha = 1f;
     }
 
-    //public void OnDrop(PointerEventData eventData)
-    //{
-    //    throw new System.NotImplementedException();
-    //}
-
-    public void changeParent(Transform input)
+    public void changeParent(Transform parent, bool cmd)
     {
-        transform.SetParent(input);
-        parentPanel = input.gameObject;
+        transform.SetParent(parent, cmd);
+        if (parent != null)
+        {
+            parentObject = parent.gameObject;
+        }
+
+
     }
 }
