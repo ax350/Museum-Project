@@ -69,4 +69,16 @@ public class ItemSlot : MonoBehaviour, IDropHandler
 
         occupation(currentObject);
     }
+
+    public void Update()
+    {
+        if (occupied)
+        {
+            transform.Find("Hint").gameObject.SetActive(false);
+        }
+        else
+        {
+            transform.Find("Hint").gameObject.SetActive(true);
+        }
+    }
 }
