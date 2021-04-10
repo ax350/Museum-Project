@@ -18,7 +18,7 @@ public class FrameSwitcher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        activeSubmission(submitButton);
     }
 
     public void activeNext()
@@ -64,5 +64,45 @@ public class FrameSwitcher : MonoBehaviour
             frames[--j].gameObject.SetActive(true);
             Debug.Log(j+" Working");
         }
+    }
+
+    private void activeSubmission(GameObject button)
+    {
+        int j = 0;
+        foreach (var i in frames)
+        {
+            if (i.occupied)
+            {
+                j++;
+                continue;
+            }
+            else
+                break;
+        }
+        if (j == frames.Count)
+        {
+            button.SetActive(true);
+        }
+        else
+        {
+            button.SetActive(false);
+        }
+    }
+
+    public string[] checkAllFrame()
+    {
+        string[] answers;
+        answers = new string[frames.Count];
+        int a = 0;
+        foreach (var i in frames)
+        {
+            answers[a++] = i.occupiedObject.GetComponent<DragnDrop>().info[0];
+        }
+        foreach (var i in answers)
+        {
+            Debug.Log(i);
+        }
+        Debug.Log(answers);
+        return answers;
     }
 }

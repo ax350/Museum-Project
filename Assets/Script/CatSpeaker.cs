@@ -23,18 +23,18 @@ public class CatSpeaker : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        talkCat();
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
+        {
+            talkCat();
+        }
     }
 
     void talkCat()
     {
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(1))
+        i++;
+        if (checkBound(i))
         {
-            i++;
-            if (checkBound(i))
-            {
-                talkBar.GetComponent<TextMeshProUGUI>().SetText(lines[i]);
-            }
+            talkBar.GetComponent<TextMeshProUGUI>().SetText(lines[i]);
         }
     }
 
@@ -49,11 +49,16 @@ public class CatSpeaker : MonoBehaviour
         else return true;
     }
 
-    void turnObjects(bool cmd)
+    public void turnObjects(bool cmd)
     {
         foreach (var i in disableOjects)
         {
             i.SetActive(cmd);
         }
+    }
+
+    public void scoreLine(string line)
+    {
+        talkBar.GetComponent<TextMeshProUGUI>().SetText(line);
     }
 }
