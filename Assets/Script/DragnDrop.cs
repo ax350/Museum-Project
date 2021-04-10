@@ -13,6 +13,8 @@ public class DragnDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
     [SerializeField]
     private GameObject parentObject;
 
+    public string[] info;
+
     public void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
