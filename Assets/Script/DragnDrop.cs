@@ -15,10 +15,15 @@ public class DragnDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
 
     public string[] info;
 
+    public Vector2 originalPos;
+
     public void Awake()
     {
         rectTransform = GetComponent<RectTransform>();
         canvasGroup = GetComponent<CanvasGroup>();
+
+        parentObject = transform.parent.gameObject;
+        UpdatePos();
     }
 
 
@@ -52,12 +57,28 @@ public class DragnDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, 
 
     public void changeParent(Transform parent, bool cmd)
     {
+        if (parentObject.name == "Menu")
+        {
+            parentObject.GetComponent<Menu>().removeFromList(this.gameObject);
+        }
+        else if (parentObject.name == "Frame")
+        {
+            parentObject.GetComponent<ItemSlot>().deoccupation();
+        }
         transform.SetParent(parent, cmd);
         if (parent != null)
         {
             parentObject = parent.gameObject;
-        }
+        }     
+    }
 
-
+    private void UpdatePos()
+    {
+        originalPos = rectTransform.anchoredPosition;
+    }
+    public void ResetToOriginalPos()
+    {
+        transform.SetParent(null);
+        transform.SetParent(parentObject.transform);
     }
 }

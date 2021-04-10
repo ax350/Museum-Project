@@ -5,12 +5,12 @@ using UnityEngine.EventSystems;
 
 public class Menu : MonoBehaviour, IDropHandler
 {
-    public Dictionary<GameObject,string[]> paintingDirectory;
+    //public Dictionary<GameObject,string[]> paintingDirectory;
     public List<GameObject> paintings;
 
     void Awake()
-    { 
-        
+    {
+        readAllPaintings();
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -25,6 +25,8 @@ public class Menu : MonoBehaviour, IDropHandler
 
             eventData.pointerDrag.GetComponent<RectTransform>().localScale = new Vector3(.5625f, 1, 1);
             eventData.pointerDrag.GetComponent<RectTransform>().anchoredPosition3D = new Vector3(0,0,1);
+
+            addToList(eventData.pointerDrag);
             //object_rectTransform.localPosition.z = 1f;
         }
     }
@@ -35,7 +37,18 @@ public class Menu : MonoBehaviour, IDropHandler
         {
             GameObject painting = transform.GetChild(i).gameObject;
             paintings.Add(painting);
-            paintingDirectory.Add(painting, painting.GetComponent<DragnDrop>().info);
+            //paintingDirectory.Add(painting, painting.GetComponent<DragnDrop>().info);
+            painting.name = "Image";
         }
+    }
+
+    public void removeFromList(GameObject painting)
+    {
+        paintings.Remove(painting);
+    }
+
+    public void addToList(GameObject painting)
+    {
+        paintings.Add(painting);
     }
 }
